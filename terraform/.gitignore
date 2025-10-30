@@ -1,0 +1,10 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.auto.tfvars
+*.zip
+*.pem
+*.key
+.env
+.terraform.lock.hcl

@@ -1,0 +1,21 @@
+VPC 10.0.0.0/16 with DNS support/hostnames on.
+
+Two subnets: 10.0.1.0/24 and 10.0.2.0/24.
+Both are associated to a route table that sends 0.0.0.0/0 to the IGW → these are public subnets.
+
+Internet Gateway attached and routed.
+
+ECS cluster (Fargate) with Container Insights on.
+
+Task definition (Fargate, awsvpc, 256/512) running a single container on port 3000, using the task execution role with the standard AmazonECSTaskExecutionRolePolicy.
+
+ECS service (desired_count=1) in your two subnets, with assign_public_ip = true.
+
+
+
+tasks:
+- create s3 with remote terraform state
+- implement https with alb
+- look into ECR IAC
+- multi stage build for dockerfile
+- 
