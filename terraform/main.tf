@@ -29,6 +29,6 @@ module "ecs" {
 module "route53" {
   source = "./modules/route53"
   alb_dns_name = module.alb.lb_dns_name
-  alb_zone_id = "change me"
+  alb_zone_id = module.alb.lb_zone_id
 }
 

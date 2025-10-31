@@ -7,6 +7,9 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
+# allow for https 
+
+
 
 # ALB allows inbound HTTP :80 from the internet
 resource "aws_vpc_security_group_ingress_rule" "alb_http_80" {

@@ -18,4 +18,8 @@ tasks:
 - implement https with alb
 - look into ECR IAC
 - multi stage build for dockerfile
-- 
+- use best practices with dockerfile
+-- no route user 
+-- no CMD mroe limited version
+- fix main route file
+
