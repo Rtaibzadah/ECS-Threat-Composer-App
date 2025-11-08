@@ -1,22 +1,20 @@
-name: push-ecr
+name: "Push Docker Image to ECR"
 
 on:
-  push:
-    branches: [ main ]
-    paths: [ "app/**" ]
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches: [ main ]
-    paths: [ "app/**" ]
-  workflow_dispatch: {}
-
-env:
-  AWS_REGION: eu-west-2
-  ECR_REPOSITORY: threat-composer
-
+    types: [opened]
+    branches:
+      - main
+    paths:
+      - "app/**"
 jobs:
   build-and-push:
+    name: Build and Push to ECR
     runs-on: ubuntu-latest
+
+    env:
+      REPOSITORY: threat-composer
+      IMAGE_TAG: latest
 
     steps:
       - name: Checkout repo
@@ -27,42 +25,28 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Ensure ECR repository exists
-        run: |
-          aws ecr describe-repositories --repository-names "$ECR_REPOSITORY" >/dev/null 2>&1 || \
-          aws ecr create-repository --repository-name "$ECR_REPOSITORY" \
-            --image-scanning-configuration scanOnPush=true \
-            --encryption-configuration encryptionType=AES256
+          aws-region: eu-west-2
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set registry and tags
-        run: |
-          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
-          echo "IMAGE_TAG_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
-          echo "IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}" >> $GITHUB_ENV
+      - name: Set local environment variable for ECR registry
+        run: echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
 
-      - name: Build Docker image (context: app/)
+      - name: Build Image
         run: |
-          docker build \
-            -t "$IMAGE_URI:latest" \
-            -t "$IMAGE_URI:$IMAGE_TAG_SHA" \
-            app
+          docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
 
-      - name: Scan image with Trivy (fails on HIGH/CRITICAL)
+      - name: Scan Image for vulnerabilities using Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG_SHA }}"
+          image-ref: "${{ env.ECR_REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}"
           format: "table"
           exit-code: "1"
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
 
-      - name: Push images to ECR
+      - name: Push Image to Amazon ECR
         run: |
-          docker push "$IMAGE_URI:latest"
-          docker push "$IMAGE_URI:$IMAGE_TAG_SHA"
+          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
