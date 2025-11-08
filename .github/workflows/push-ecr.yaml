@@ -1,11 +1,68 @@
-# name: Push docker image to ECR
+name: push-ecr
 
-# on:
-#   push: #or use workflow_dispatch for manual runs
-#     branches:
-#       - main
-#     paths:
-#       - terraform/**
+on:
+  push:
+    branches: [ main ]
+    paths: [ "app/**" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+    paths: [ "app/**" ]
+  workflow_dispatch: {}
 
-# env:
-#   AWS_REGION: eu-west-2
+env:
+  AWS_REGION: eu-west-2
+  ECR_REPOSITORY: threat-composer
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set registry and tags
+        id: vars
+        run: |
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+          echo "IMAGE_TAG_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}" >> $GITHUB_ENV
+
+      - name: Build Docker image (context: app/)
+        run: |
+          docker build \
+            -t "$IMAGE_URI:latest" \
+            -t "$IMAGE_URI:$IMAGE_TAG_SHA" \
+            app
+
+      - name: Scan image with Trivy (fails on HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG_SHA }}"
+          format: "table"
+          exit-code: "1"
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
+
+      - name: Push image to ECR
+        run: |
+          docker push "$IMAGE_URI:latest"
+          docker push "$IMAGE_URI:$IMAGE_TAG_SHA"
+
+      - name: Output image URIs
+        run: |
+          echo "Pushed:"
+          echo " - $IMAGE_URI:latest"
+          echo " - $IMAGE_URI:$IMAGE_TAG_SHA"

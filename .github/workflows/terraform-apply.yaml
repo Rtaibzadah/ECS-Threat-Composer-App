@@ -1,36 +1,3 @@
-# name: Terraform apply
-
-# on:
-#   push: #or use workflow_dispatch for manual runs
-#     branches:
-#       - main
-#     paths:
-#       - terraform/**
-
-# env:
-#   AWS_REGION: eu-west-2
-
-# jobs:
-#   apply:
-#     runs-on: ubuntu-latest #change to a static version
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#       - name: aws-actions/configure-aws-credentials@v1
-#         with:
-#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           aws-region: ${{ env.AWS_REGION }}
-
-#       - name: Setup Terraform 
-#         uses: hashicorp/setup-terraform@v3
-
-#       - name: Init
-#         run: terraform init -input=false
-
-#       - name: Apply
-#         run: terraform apply -auto-approve
-
 name: terraform-apply
 
 on:
