@@ -1,0 +1,11 @@
+name: Push docker image to ECR
+
+on:
+  push: #or use workflow_dispatch for manual runs
+    branches:
+      - main
+    paths:
+      - terraform/**
+
+env:
+  AWS_REGION: eu-west-2

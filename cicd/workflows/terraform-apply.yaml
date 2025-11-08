@@ -1,8 +1,0 @@
-name: Terraform apply
-
-on:
-  push: #or use workflow_dispatch for manual runs
-    branches:
-      - main
-    paths
-

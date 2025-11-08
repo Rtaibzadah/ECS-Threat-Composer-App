@@ -1,10 +1,16 @@
-resource "aws_route53_zone" "primary" {
-  name = "tc.digitalcncloud.org"
+# resource "aws_route53_zone" "primary" {
+#   name = "tc.digitalcncloud.org"
+# }
+
+
+data "aws_route53_zone" "primary" {
+  name         = var.domain_name
+
 }
 
 resource "aws_route53_record" "ns-to-alb" {
-  zone_id = aws_route53_zone.primary.zone_id
-  name    = "tc.digitalcncloud.org"
+  zone_id = data.aws_route53_zone.primary.zone_id
+  name    = var.domain_name
   type    = "A"
 
   alias {

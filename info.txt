@@ -14,10 +14,9 @@ ECS service (desired_count=1) in your two subnets, with assign_public_ip = true.
 
 
 tasks:
-- create s3 with remote terraform state
-- implement https with alb
+
 - look into ECR IAC
-- multi stage build for dockerfile
+
 - use best practices with dockerfile
 -- no route user 
 -- no CMD mroe limited version

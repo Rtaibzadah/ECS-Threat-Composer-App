@@ -11,13 +11,6 @@
 #DependencyViolation: Network vpc-08071a7f6ed7887be has some mapped public address(es). Please unmap those public address(es) before detaching the gateway.
   enable_deletion_protection = false
 
-#  Wont use access logs for now
-#   access_logs {
-#     bucket  = aws_s3_bucket.lb_logs.id
-#     prefix  = "test-lb"
-#     enabled = true
-#   }
-
   tags = {
     Environment = "production"
   }
@@ -42,12 +35,13 @@ resource "aws_lb_target_group" "app" {
   }
 }
 
-
+# changed to https, maybe add http
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
-  port              = 80
-  protocol          = "HTTP"
-  # ssl_policy = "ELBSecurityPolicy-2016-08" # only needed for HTTPS
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy = "ELBSecurityPolicy-TLS13-1-2-2021-06" 
+  certificate_arn   = var.certificate_arn
 
   default_action {
     type             = "forward"

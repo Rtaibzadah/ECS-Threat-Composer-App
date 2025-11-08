@@ -11,10 +11,11 @@ module "sg" {
 }
 
 module "alb" {
-  source            = "./modules/alb"
-  vpc_id            = module.vpc.vpc_id
+  source = "./modules/alb"
+  vpc_id = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids
-  alb_sg_id         = module.sg.alb_sg_id
+  alb_sg_id = module.sg.alb_sg_id
+  certificate_arn = module.acm.certificate_arn
 }
 
 module "ecs" {
@@ -30,5 +31,11 @@ module "route53" {
   source = "./modules/route53"
   alb_dns_name = module.alb.lb_dns_name
   alb_zone_id = module.alb.lb_zone_id
+  domain_name = var.domain_name
 }
 
+module "acm" {
+  source = "./modules/acm"
+  domain_name = var.domain_name
+  hosted_zone_id = module.route53.route53_hosted_zone
+}

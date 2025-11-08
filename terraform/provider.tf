@@ -8,8 +8,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "terraform-state"
-    key = "/terraform/terraform.tfstate"
+    bucket = "terraform-state-roman"
+    key = "terraform.tfstate"
     region = "eu-west-2"
     use_lockfile = true #s3 native locking
   }
