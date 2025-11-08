@@ -1,6 +1,6 @@
 variable "container_image" {
   type        = string
-  description = "ECR image URI "
+  default = "761639968218.dkr.ecr.eu-west-2.amazonaws.com/easy-ecs:latest"
 }
 
 variable "domain_name" {
