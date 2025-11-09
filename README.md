@@ -2,7 +2,7 @@
 
 <img width="1279" height="873" alt="Screenshot 2025-11-09 at 13 47 02" src="https://github.com/user-attachments/assets/44f9e392-8d1d-4aa7-b838-55941477e598" />
 
-## 🚀 Overview  
+## Overview  
 This project deploys **Threat-Composer**, an open-source application by **Amazon**, to **AWS** using **Terraform** and **GitHub Actions**.  
 It includes full **DNS configuration**, **SSL certificate setup**, and **deployment to a custom domain** — **tm.digitalcncloud.org**.  
 
@@ -13,16 +13,16 @@ This project demonstrates a **modular Terraform architecture**, a **remote backe
 
 ## 🏗️ Infrastructure Highlights  
 
-- **☁️ Modular Terraform Structure**  
+- **Modular Terraform Structure**  
   Each AWS component (VPC, ALB, ECS, ACM, Route53, Security Groups) is split into its own module for readability and scalability.  
 
-- **📦 Remote Backend with S3**  
+- **Remote Backend with S3**  
   Terraform state is stored in **Amazon S3**, allowing collaboration within large teams and ensuring a single source of truth for deployments.  
 
-- **🔒 State Locking Enabled**  
+- **State Locking Enabled**  
   **AWS S3-based locking** prevents concurrent changes to infrastructure, protecting against state corruption.  
 
-- **🧩 CI/CD Integration**  
+- **CI/CD Integration**  
   - GitHub Actions automatically builds and scans Docker images using **Trivy**.  
   - Authenticates securely to AWS (via OIDC or encrypted secrets).  
   - Pushes images to **ECR** and triggers Terraform pipelines for updates.  
