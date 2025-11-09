@@ -36,6 +36,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_egress_all" {
 # sg rule to only allow from ALB -> 3000 
 resource "aws_security_group" "svc" {
   name        = "svc"
+  # description = ""
   vpc_id      = var.vpc_id
 
   tags = {

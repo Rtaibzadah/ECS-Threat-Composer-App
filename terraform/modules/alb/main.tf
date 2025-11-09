@@ -6,9 +6,9 @@
   load_balancer_type = "application"
   security_groups    = [var.alb_sg_id]
   subnets            = var.public_subnet_ids
-
-#having teh below as true was giving the following error
+  drop_invalid_header_fields = true
 #DependencyViolation: Network vpc-08071a7f6ed7887be has some mapped public address(es). Please unmap those public address(es) before detaching the gateway.
+  
   enable_deletion_protection = false
 
   tags = {

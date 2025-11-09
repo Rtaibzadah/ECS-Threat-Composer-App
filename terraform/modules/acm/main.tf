@@ -1,6 +1,12 @@
 resource "aws_acm_certificate" "acm-cert" {
   domain_name       = var.domain_name
   validation_method = "DNS"
+
+  # recommended: to avoid a possible outage when the certificate needs to be recreated during an update
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
 resource "aws_route53_record" "example" {
