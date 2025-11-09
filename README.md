@@ -1,4 +1,4 @@
-# 🧠 Threat Composer, Deployed on AWS ECS Fargate  
+# Threat Composer, Deployed on AWS ECS Fargate  
 
 <img width="1279" height="873" alt="Screenshot 2025-11-09 at 13 47 02" src="https://github.com/user-attachments/assets/44f9e392-8d1d-4aa7-b838-55941477e598" />
 
