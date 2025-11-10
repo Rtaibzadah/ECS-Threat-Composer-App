@@ -1,9 +1,8 @@
 # ECS cluster + task def + service
-# Your cluster is automatically configured for AWS Fargate 
-# (serverless) with two capacity providers.
 
 resource "aws_cloudwatch_log_group" "ecs" {
-  name = "/ecs/easy-ecs"
+  #Log name space that ecs will write too
+  name              = "/ecs/easy-ecs"
   retention_in_days = 3
 }
 
