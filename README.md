@@ -1,5 +1,17 @@
 # Threat Composer, Deployed on AWS ECS Fargate  
 
+## 🛠️ AWS Services Used  
+
+- **VPC (Virtual Private Cloud):** Provides isolated networking for all resources, ensuring security and traffic control.  
+- **ALB (Application Load Balancer):** Routes incoming traffic to ECS Fargate services and acts as a reverse proxy.  
+- **ECS (Elastic Container Service):** Manages containerised workloads, task definitions, and service scaling.  
+- **ECR (Elastic Container Registry):** Stores, versions, and manages Docker images used by ECS.  
+- **Security Groups (SG):** Define inbound and outbound firewall rules to control network access.  
+- **Route53:** Handles DNS management and routing for the custom domain **tc.threatcomposer.co.uk**.  
+- **ACM (AWS Certificate Manager):** Issues and manages SSL/TLS certificates for secure HTTPS communication.  
+- **IAM (Identity and Access Management):** Provides fine-grained access control for AWS users, roles, and policies.  
+- **Internet Gateway (IG):** Enables internet access for public subnets within the VPC.  
+
 <img width="1279" height="873" alt="Screenshot 2025-11-09 at 13 47 02" src="https://github.com/user-attachments/assets/44f9e392-8d1d-4aa7-b838-55941477e598" />
 
 ## Overview  
@@ -56,15 +68,3 @@ ECS-Threat-Composer-App/
 │
 └── README.md
 ```
-
-## 🛠️ AWS Services Used  
-
-- **VPC (Virtual Private Cloud):** Provides isolated networking for all resources, ensuring security and traffic control.  
-- **ALB (Application Load Balancer):** Routes incoming traffic to ECS Fargate services and acts as a reverse proxy.  
-- **ECS (Elastic Container Service):** Manages containerised workloads, task definitions, and service scaling.  
-- **ECR (Elastic Container Registry):** Stores, versions, and manages Docker images used by ECS.  
-- **Security Groups (SG):** Define inbound and outbound firewall rules to control network access.  
-- **Route53:** Handles DNS management and routing for the custom domain **tc.threatcomposer.co.uk**.  
-- **ACM (AWS Certificate Manager):** Issues and manages SSL/TLS certificates for secure HTTPS communication.  
-- **IAM (Identity and Access Management):** Provides fine-grained access control for AWS users, roles, and policies.  
-- **Internet Gateway (IG):** Enables internet access for public subnets within the VPC.  
