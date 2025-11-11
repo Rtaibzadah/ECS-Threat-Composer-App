@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm:
-        description: '⚠️ Type "yes" to confirm destroy (this deletes all infra)'
+        description: 'Type "yes" to confirm destroy (this deletes all infra)'
         required: true
         default: "no"
 
