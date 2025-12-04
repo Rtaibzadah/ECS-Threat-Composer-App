@@ -34,8 +34,7 @@ jobs:
 
             - name: Initialise project and view terraform plan
               run: |
-                ls
-                # cd terraform
-                # terraform fmt
-                # terraform init
-                # terraform apply 
+                cd terraform
+                terraform fmt
+                terraform init
+                terraform apply 
