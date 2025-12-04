@@ -11,7 +11,7 @@ jobs:
         name: Terraform plan # Name of plan
         runs-on: ubuntu-20.04 # the VM that works on terraform plan
         steps: # a job runs multiple steps in order
-            - uses: actions/chekout@v3 # checks out ur repo in vm so workflow can access your code
+            - uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
             # the following is beacause im using a node application
             - name: Use Node.js 14.x #(optional) name for github actions UI
               uses: actions/setup-node@v1 # runs the setup-node action 
