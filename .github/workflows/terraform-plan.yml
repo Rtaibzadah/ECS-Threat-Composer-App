@@ -23,6 +23,8 @@ jobs:
                 aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: eu-west-2
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v2
             - name: Initialise project and view terraform plan
               run: |
                 cd terraform
