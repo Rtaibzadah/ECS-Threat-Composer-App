@@ -1,37 +1,31 @@
-name: Terraform Plan
+name: Terraform Plan and Apply
 
 on:
   workflow_dispatch:
-    inputs:
-      terraform-plan:
-        description: 'Run Terraform plan?'
-        required: true
-        type: string
-
-env:
-  AWS_REGION: eu-west-2  
+  push:
+    branches: [main]
+    paths: ["terraform/**"]
 
 jobs:
-  plan:
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Run Checkov security scan
-        uses: bridgecrewio/checkov-action@v12
-        with:
-          directory: ./terraform
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Terraform plan
-        uses: dflook/terraform-plan@v2
-        with:
-          path: terraform
+    plan: #Job id, this can be referrenced later
+        name: Terraform plan # Name of plan
+        runs-on: ubuntu-20.04 # the VM that works on terraform plan
+        steps: # a job runs multiple steps in order
+            - uses: action/chekout@v3 # checks out ur repo in vm so workflow can access your code
+            # the following is beacause im using a node application
+            - name: Use Node.js 14.x #(optional) name for github actions UI
+              uses: action/setup-node@v1 # runs the setup-node action 
+              with:
+                node-version: 14.x #installs node on vm
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: eu-west-2
+            - name: Initialise project and view terraform plan
+              run: |
+                cd terraform
+                cd qa
+                terraform fmt
+                terraform init
