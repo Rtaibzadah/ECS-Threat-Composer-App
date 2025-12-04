@@ -1,20 +1,20 @@
 name: Terraform Plan and Apply
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["terraform/**"]
+    workflow_dispatch:
+    push:
+        branches: [main]
+        paths: ["terraform/**"]
 
 jobs:
     plan: #Job id, this can be referrenced later
         name: Terraform plan # Name of plan
         runs-on: ubuntu-20.04 # the VM that works on terraform plan
         steps: # a job runs multiple steps in order
-            - uses: action/chekout@v3 # checks out ur repo in vm so workflow can access your code
+            - uses: actions/chekout@v3 # checks out ur repo in vm so workflow can access your code
             # the following is beacause im using a node application
             - name: Use Node.js 14.x #(optional) name for github actions UI
-              uses: action/setup-node@v1 # runs the setup-node action 
+              uses: actions/setup-node@v1 # runs the setup-node action 
               with:
                 node-version: 14.x #installs node on vm
             - name: Configure AWS credentials
@@ -29,3 +29,5 @@ jobs:
                 cd qa
                 terraform fmt
                 terraform init
+                terraform plan
+
