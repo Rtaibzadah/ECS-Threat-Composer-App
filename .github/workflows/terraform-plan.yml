@@ -1,10 +1,16 @@
-name: Terraform Plan and Apply
+name: Terraform Plan
 
 on:
-    workflow_dispatch:
-    push:
-        branches: [main]
-
+  push: #when pushing code to github, using main branch and changes to terraform dirrectory
+    branches: [main] 
+    # paths: ["terraform/**"]
+  pull_request: #or pull request to main branch with changes to terraform dirrectory
+    branches: [main]
+    # paths: ["terraform/**"]
+env:
+    AWS-ACCESS-ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+    AWS-SECRET-ACCESS-KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    AWS-REGION: eu-west-2
 
 jobs:
     plan: #Job id, this can be referrenced later
@@ -13,23 +19,25 @@ jobs:
         steps: # a job runs multiple steps in order
             - uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
             # the following is beacause im using a node application
+
             - name: Use Node.js 14.x #(optional) name for github actions UI
               uses: actions/setup-node@v1 # runs the setup-node action 
               with:
                 node-version: 14.x #installs node on vm
+
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v2
               with:
-                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                aws-region: eu-west-2
-            - name: Setup Terraform #install terraform as we are goign to run terraform commands
+                aws-access-key-id: AWS-ACCESS-ID
+                aws-secret-access-key: AWS-SECRET-ACCESS-KEY
+                aws-region: AWS-REGION
+
+            - name: Setup Terraform #install terraform as we are going to run terraform commands
               uses: hashicorp/setup-terraform@v2
+
             - name: Initialise project and view terraform plan
               run: |
                 cd terraform
                 terraform fmt
                 terraform init
                 terraform plan
-
-#hello

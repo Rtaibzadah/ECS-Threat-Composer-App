@@ -1,0 +1,28 @@
+
+name: Terraform Apply
+
+on:
+    workflow_dispatch: # manual apply on github UI
+
+jobs:
+    apply:
+        name: Terraform Apply
+        runs-on: unbuntu-latest
+
+        steps:
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: AWS-ACCESS-ID
+                aws-secret-access-key: AWS-SECRET-ACCESS-KEY
+                aws-region: AWS-REGION
+
+            - name: Setup Terraform #install terraform as we are going to run terraform commands
+              uses: hashicorp/setup-terraform@v2
+
+            - name: Initialise project and view terraform plan
+              run: |
+                cd terraform
+                terraform fmt
+                terraform init
+                terraform apply 
