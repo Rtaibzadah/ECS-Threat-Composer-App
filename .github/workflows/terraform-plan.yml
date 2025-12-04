@@ -9,7 +9,7 @@ on:
 jobs:
     plan: #Job id, this can be referrenced later
         name: Terraform plan # Name of plan
-        runs-on: ubuntu-20.04 # the VM that works on terraform plan
+        runs-on: ubuntu-latest # the VM that works on terraform plan
         steps: # a job runs multiple steps in order
             - uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
             # the following is beacause im using a node application
