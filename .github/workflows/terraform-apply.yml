@@ -15,6 +15,13 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
+            # the following is beacause im using a node application
+
+            - name: Use Node.js 14.x #(optional) name for github actions UI
+              uses: actions/setup-node@v1 # runs the setup-node action 
+              with:
+                node-version: 14.x #installs node on vm
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v2
               with:
