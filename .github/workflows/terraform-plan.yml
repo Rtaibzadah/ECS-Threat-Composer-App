@@ -10,7 +10,7 @@ on:
 env:
     AWS-ACCESS-ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
     AWS-SECRET-ACCESS-KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    AWS-REGION: eu-west-2
+    AWS-REGION: "eu-west-2"
 
 jobs:
     plan: #Job id, this can be referrenced later
@@ -28,9 +28,10 @@ jobs:
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v2
               with:
-                aws-access-key-id: AWS-ACCESS-ID
-                aws-secret-access-key: AWS-SECRET-ACCESS-KEY
-                aws-region: AWS-REGION
+                aws-access-key-id: ${{ env.AWS-ACCESS-ID }}
+                aws-secret-access-key: ${{ env.AWS-SECRET-ACCESS-KEY }}
+                aws-region: ${{ env.AWS-REGION }}
+
 
             - name: Setup Terraform #install terraform as we are going to run terraform commands
               uses: hashicorp/setup-terraform@v2
