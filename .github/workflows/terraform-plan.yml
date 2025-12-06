@@ -40,3 +40,4 @@ jobs:
                 terraform fmt
                 terraform init
                 terraform plan
+ 
