@@ -12,11 +12,11 @@ terraform {
     key = "terraform.tfstate"
     region = "eu-west-2"
     use_lockfile = false #s3 native locking
-    profile      = "easyecs" 
+    # profile      = "easyecs" 
   }
 }
 
 provider "aws" {
   region = "eu-west-2"
-  profile = "easyecs"
+  # profile = "easyecs"
 }
