@@ -11,12 +11,12 @@ terraform {
     bucket = "terraform-state-roman"
     key = "terraform.tfstate"
     region = "eu-west-2"
-    use_lockfile = true #s3 native locking
-    # profile      = "easyecs" 
+    use_lockfile = false #s3 native locking
+    profile      = "easyecs" 
   }
 }
 
 provider "aws" {
   region = "eu-west-2"
-  # profile = "easyecs"
+  profile = "easyecs"
 }
