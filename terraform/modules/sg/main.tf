@@ -10,7 +10,7 @@ resource "aws_security_group" "alb_sg" {
 
 # ALB allows inbound HTTP 
 resource "aws_vpc_security_group_ingress_rule" "alb_http_80" {
-  description       = "SG -> Allow HTTP for 80→443 redirect"
+  description       = "SG, Allow HTTP for 80→443 redirect"
   security_group_id = aws_security_group.alb_sg.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
@@ -19,7 +19,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_http_80" {
 }
 # ALB allows inbound HTTPS
 resource "aws_vpc_security_group_ingress_rule" "alb_https_443" {
-  description       = "SG -> Allow HTTPS to ALB"
+  description       = "SG, Allow HTTPS to ALB"
   security_group_id = aws_security_group.alb_sg.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 443
@@ -40,7 +40,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_egress_all" {
 resource "aws_security_group" "svc" {
   name        = "svc"
   vpc_id      = var.vpc_id
-  description = "SG -> ECS service tasks"
+  description = "SG, ECS service tasks"
 
   tags = {
     Name      = "easy-ecs-sg"
