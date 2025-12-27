@@ -1,0 +1,39 @@
+name: Terraform Destroy
+
+on:
+    workflow_dispatch: # manual destroy on github UI
+
+env:
+    AWS_ACCESS_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    AWS_REGION: "eu-west-2"
+
+jobs:
+    destroy:
+        name: Terraform Destroy
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
+            # the following is beacause im using a node application
+
+            - name: Use Node.js 14.x #(optional) name for github actions UI
+              uses: actions/setup-node@v1 # runs the setup-node action 
+              with:
+                node-version: 14.x #installs node on vm
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ env.AWS_ACCESS_ID }}
+                aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY}}
+                aws-region: ${{ env.AWS_REGION }}
+
+            - name: Setup Terraform #install terraform as we are going to run terraform commands
+              uses: hashicorp/setup-terraform@v2
+
+            - name: Initialise project and destroy terraform resources
+              run: |
+                cd terraform
+                terraform fmt
+                terraform init
+                terraform destroy -auto-approve
