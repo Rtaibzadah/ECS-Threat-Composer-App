@@ -11,7 +11,7 @@ This project demonstrates a **modular Terraform architecture**, a **remote backe
 
 ---
 
-## 🏗️ Infrastructure Highlights  
+## Infrastructure Highlights  
 
 - **Modular Terraform Structure**  
   Each AWS component (VPC, ALB, ECS, ACM, Route53, Security Groups) is split into its own module for readability and scalability.  
