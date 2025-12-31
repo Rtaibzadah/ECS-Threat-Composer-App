@@ -1,0 +1,46 @@
+name: Push Dockerfile to Amazon ECR
+
+on:
+    push:
+        branches: [main] 
+        # paths: ["app/**"]
+
+
+env:
+    AWS_ACCESS_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    AWS_REGION: "eu-west-2"
+
+jobs:
+    push-to-ecr:
+        name: Push to ECR
+        runs-on: ubuntu-latest      
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ env.AWS_ACCESS_ID }}
+                aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{ env.AWS_REGION }}
+
+            - name: Login to Amazon ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v1
+
+            - name: Build, tag, and push image to Amazon ECR
+              env:
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                ECR_REPOSITORY: easy-ecs
+                IMAGE_TAG: latest
+              run: |
+                # Build a Docker image and tag it
+                docker build -t $ECR_REPOSITORY:$IMAGE_TAG ./app
+
+                # Tag the image with the ECR registry
+                docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+                # Push the image to Amazon ECR
+                docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
