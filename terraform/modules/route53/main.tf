@@ -1,7 +1,6 @@
 #Retrieve Hosted Zone
 data "aws_route53_zone" "primary" {
   name         = var.domain_name
-
 }
 
 #Alias to point traffic going to domain to alb dns

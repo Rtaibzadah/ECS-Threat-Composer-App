@@ -36,11 +36,8 @@ jobs:
                 ECR_REPOSITORY: easy-ecs
                 IMAGE_TAG: latest
               run: |
-                # Build a Docker image and tag it
                 docker build -t $ECR_REPOSITORY:$IMAGE_TAG ./app
 
-                # Tag the image with the ECR registry
                 docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-                # Push the image to Amazon ECR
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

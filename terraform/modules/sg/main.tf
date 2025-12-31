@@ -36,7 +36,6 @@ resource "aws_vpc_security_group_egress_rule" "alb_egress_all" {
 
 
 # Only Allow traffic from ALB to ECS Service
-# defines the firewall for (something) inside VPC
 resource "aws_security_group" "svc" {
   name        = "svc"
   vpc_id      = var.vpc_id

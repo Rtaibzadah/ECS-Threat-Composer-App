@@ -1,9 +1,7 @@
 name: Terraform Plan
 
-on:
-  push: #when pushing code to github, using main branch and changes to terraform dirrectory
-    branches: [main] 
-    paths: ["terraform/**"]
+on: 
+    workflow_dispatch:
 
 env:
     AWS_ACCESS_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
@@ -11,18 +9,17 @@ env:
     AWS_REGION: "eu-west-2"
 
 jobs:
-    plan: #Job id, this can be referrenced later
-        name: Terraform plan # Name of plan
-        runs-on: ubuntu-latest # the VM that works on terraform plan
-        steps: # a job runs multiple steps in order
+    plan: 
+        name: Terraform plan 
+        runs-on: ubuntu-latest 
+        steps: 
             - name: Checkout code
-              uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
-            # the following is beacause im using a node application
+              uses: actions/checkout@v3 
 
-            - name: Use Node.js 14.x #(optional) name for github actions UI
-              uses: actions/setup-node@v1 # runs the setup-node action 
+            - name: Use Node.js 14.x 
+              uses: actions/setup-node@v1  
               with:
-                node-version: 14.x #installs node on vm
+                node-version: 14.x 
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v2
@@ -31,8 +28,7 @@ jobs:
                 aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{ env.AWS_REGION }}
 
-
-            - name: Setup Terraform #install terraform as we are going to run terraform commands
+            - name: Setup Terraform 
               uses: hashicorp/setup-terraform@v2
 
             - name: Initialise project and view terraform plan
@@ -41,4 +37,5 @@ jobs:
                 terraform fmt
                 terraform init
                 terraform plan
- 
+
+                

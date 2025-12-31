@@ -7,8 +7,7 @@
   security_groups    = [var.alb_sg_id]
   subnets            = var.public_subnet_ids
   drop_invalid_header_fields = true
-#DependencyViolation: Network vpc-08071a7f6ed7887be has some mapped public address(es). Please unmap those public address(es) before detaching the gateway.
-  
+  #set as false temporarily to allow deletion during testing
   enable_deletion_protection = false
 
   tags = {
@@ -35,7 +34,6 @@ resource "aws_lb_target_group" "app" {
   }
 }
 
-# changed to https, maybe add http
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
   port              = 443

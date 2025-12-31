@@ -8,14 +8,11 @@ output "lb_zone_id" {
   value       = aws_lb.main.zone_id
 }
 
-
-
 output "lb_arn" {
   description = "ARN of the ALB"
   value       = aws_lb.main.arn
 }
 
-# the ones above gpt made
 output "tg_arn" {
   description = "ARN of the target group that ECS should register to"
   value       = aws_lb_target_group.app.arn
