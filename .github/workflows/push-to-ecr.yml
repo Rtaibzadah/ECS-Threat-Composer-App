@@ -17,8 +17,8 @@ jobs:
         runs-on: ubuntu-latest      
         steps:
             - name: Checkout code
-              uses: actions/checkout@v3 # checks out ur repo in vm so workflow can access your code
-
+              uses: actions/checkout@v3 
+              
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v2
               with:
