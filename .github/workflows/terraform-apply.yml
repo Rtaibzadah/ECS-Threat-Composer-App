@@ -4,7 +4,7 @@ name: Terraform Apply
 on:
   push:
     branches: [main] 
-    paths: ["app/**"]
+    paths: ["terraform/**"]
 
 env:
     AWS_ACCESS_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
