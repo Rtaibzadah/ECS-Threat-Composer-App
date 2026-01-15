@@ -4,6 +4,6 @@ output "alb_sg_id" {
 }
 
 output "svc_sg_id" {
-  value       = aws_security_group.svc.id
+  value       = aws_security_group.svc_sg.id
   description = "Security Group ID for ECS service tasks"
 }

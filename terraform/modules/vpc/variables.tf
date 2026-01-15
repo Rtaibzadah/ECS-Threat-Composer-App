@@ -1,9 +1,9 @@
-variable "project" {
-  description = "project name"
-  type = string
+variable "vpc_cidr" {
+  type        = string
+  description = "CIDR block for the VPC."
 }
 
-variable "vpc_cidr" {
-    description = "CIDR block for the VPC"
-    type = string
+variable "project" {
+  type        = string
+  description = "Project name (kept for interface consistency even if tags/names are hard-coded)."
 }

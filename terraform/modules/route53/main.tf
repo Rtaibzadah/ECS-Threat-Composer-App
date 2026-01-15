@@ -1,10 +1,10 @@
 #Retrieve Hosted Zone
 data "aws_route53_zone" "primary" {
-  name         = var.domain_name
+  name = var.domain_name
+  private_zone = false #incase of multiple zones
 }
 
-#Alias to point traffic going to domain to alb dns
-resource "aws_route53_record" "ns-to-alb" {
+resource "aws_route53_record" "apex_alias" {
   zone_id = data.aws_route53_zone.primary.zone_id
   name    = var.domain_name
   type    = "A"
