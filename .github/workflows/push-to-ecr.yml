@@ -3,7 +3,7 @@ name: Push Dockerfile to Amazon ECR
 on:
     push:
         branches: [main] 
-        # paths: ["app/**"]
+        paths: ["app/**"]
 
 
 env:
