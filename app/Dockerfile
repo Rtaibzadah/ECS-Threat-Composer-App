@@ -1,22 +1,20 @@
-FROM node:20-alpine AS build
+# Stage 1: Build stage
+FROM node:24-alpine AS build
 WORKDIR /app
-
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-
+RUN yarn install
+# Copy all source code 
 COPY . .
-ENV DISABLE_ESLINT_PLUGIN=true
 RUN yarn build
 
-# runtime
-FROM nginx:1.27-alpine AS runtime
-
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Run as non-root user
-USER nginx
-
+# Stage 2: Production stage
+FROM node:24-alpine
+WORKDIR /app
+RUN yarn global add serve
+COPY --from=build /app/build ./build
+RUN addgroup -S appgroup && adduser -S user -G appgroup
+RUN chown -R user:appgroup /app
 EXPOSE 3000
+USER user 
 
-CMD ["nginx", "-g", "daemon off;"]
-
+CMD ["serve", "-s", "build"]
